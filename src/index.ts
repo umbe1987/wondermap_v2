@@ -1,1 +1,3 @@
-console.log('test');
+import { WonderMap } from './Map';
+
+new WonderMap();
