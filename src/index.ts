@@ -1,3 +1,3 @@
 import { WonderMap } from './Map';
 
-new WonderMap();
+const map = new WonderMap('map');
