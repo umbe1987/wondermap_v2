@@ -1,4 +1,3 @@
-import 'ol/ol.css';
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
@@ -7,6 +6,7 @@ import ImageWMS from 'ol/source/ImageWMS';
 import { OperationalLayer } from './OperationalLayer';
 import { BasemapLayer } from './BasemapLayer';
 import { WondermapLayer } from './LayerInterface';
+import { ToC } from './widgets/toc';
 
 export class WonderMap {
     private olMap: Map;
@@ -18,13 +18,17 @@ export class WonderMap {
               center: [0, 0],
               zoom: 0
             })
-        })
+        });
+
+        this.olMap.addControl(new ToC());
+
         this.addWonderBasemap(new BasemapLayer("OSM"));
+
         this.addWonderLayer(new OperationalLayer(
           "piste da sci",
           "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
           "piste_sci"
-        ))
+        ));
     }
 
     private addWonderLayer(layer: WondermapLayer): void {

@@ -1,0 +1,23 @@
+#map {
+    height: 100%;
+}
+
+.wondermap-toc {
+    position: absolute;
+    bottom: 3.5em;
+    right: 0.5em;
+    text-align: center;
+    background-color: transparent;
+}
+
+.wondermap-toc button {
+    float: right;
+    height: 38px; 
+    width: 38px;
+    background-image: url('../ico/toc.svg');
+    background-position: center; 
+    background-color: blue;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
