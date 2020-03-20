@@ -4,7 +4,9 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import ImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
-import { OperationalLayer, BasemapLayer } from './Layer';
+import { OperationalLayer } from './OperationalLayer';
+import { BasemapLayer } from './BasemapLayer';
+import { WondermapLayer } from './LayerInterface';
 
 export class WonderMap {
     private olMap: Map;
@@ -25,22 +27,24 @@ export class WonderMap {
         ))
     }
 
-    private addWonderLayer(layer: OperationalLayer): void {
-        this.olMap.addLayer(new ImageLayer({
-          title: layer.title,
-          source: new ImageWMS({
-              ratio: 1,
-              params: {'LAYERS': layer.layerName},
-              url: layer.url
-          })
-      }));
+    private addWonderLayer(layer: WondermapLayer): void {
+      const olLyr = new ImageLayer({
+        source: new ImageWMS({
+            ratio: 1,
+            params: {'LAYERS': layer.layerName},
+            url: layer.url
+        })
+      })
+      this.olMap.addLayer(olLyr);
+      olLyr.set('title', layer.title);
     }
 
-    private addWonderBasemap(basemap: BasemapLayer): void {
-      this.olMap.addLayer(new TileLayer({
-        title: basemap.title,
-        type: basemap.type,
+    private addWonderBasemap(basemap: WondermapLayer): void {
+      const baseLyr = new TileLayer({
         source: new OSM()
-      }));
+      })
+      this.olMap.addLayer(baseLyr);
+      baseLyr.set('title', basemap.title);
+      baseLyr.set('type', basemap.type);
   }
 }
