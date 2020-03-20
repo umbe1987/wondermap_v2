@@ -4,8 +4,8 @@
 
 .wondermap-toc {
     position: absolute;
-    bottom: 3.5em;
-    right: 0.5em;
+    bottom: .5em;
+    right: .5em;
     text-align: center;
     background-color: transparent;
 }
