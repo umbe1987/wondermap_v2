@@ -1,19 +1,12 @@
-import Control from 'ol/control/Control';
+import { Widget } from '../Widget';
 
 const CSS_PREFIX = 'wondermap-toc';
 
-export class ToC extends Control {
+export class ToC extends Widget {
     
-    constructor(opt_options?) {
+    constructor() {
+        super({});
 
-        const options = opt_options || {};
-
-        const element = document.createElement('div');
-        super({element: element,
-            target: options.target});
-
-        const button = document.createElement('button');
-        element.className = CSS_PREFIX + ' ol-unselectable ol-control';
-        element.appendChild(button);
+        this.element.className += ' wondermap-toc';
     }
 }
