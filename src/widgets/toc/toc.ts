@@ -4,7 +4,7 @@ const CSS_PREFIX = 'wondermap-toc';
 
 export class ToC extends Control {
     
-    constructor(opt_options) {
+    constructor(opt_options?) {
 
         const options = opt_options || {};
 
