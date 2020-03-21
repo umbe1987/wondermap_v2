@@ -2,6 +2,9 @@
     height: 100%;
 }
 
+/* WIDGETS STYLE */
+
+/* ToC */
 .wondermap-toc {
     position: absolute;
     bottom: .5em;
@@ -14,7 +17,7 @@
     float: right;
     height: 38px; 
     width: 38px;
-    background-image: url('../ico/toc.svg');
+    background-image: url('../src/widgets/toc/toc.svg');
     background-position: center; 
     background-color: blue;
     border-radius: 50%;

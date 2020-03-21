@@ -6,7 +6,7 @@ import ImageWMS from 'ol/source/ImageWMS';
 import { OperationalLayer } from './OperationalLayer';
 import { BasemapLayer } from './BasemapLayer';
 import { WondermapLayer } from './LayerInterface';
-import { ToC } from './widgets/toc';
+import { ToC } from './widgets/toc/toc';
 
 export class WonderMap {
     private olMap: Map;
