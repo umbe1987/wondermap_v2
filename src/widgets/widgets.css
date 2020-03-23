@@ -1,0 +1,17 @@
+/* generic widget button */
+.wondermap-widget {
+    position: absolute;
+    text-align: center;
+    background-color: transparent;
+}
+
+.wondermap-widget button {
+    float: right;
+    height: 38px; 
+    width: 38px;
+    background-position: center; 
+    background-color: blue;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}

@@ -1,0 +1,10 @@
+.wondermap-toc {
+    bottom: .5em;
+    right: .5em;
+}
+
+.wondermap-toc button {
+    height: 38px; 
+    width: 38px;
+    background-image: url('./toc.svg');
+}
