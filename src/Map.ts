@@ -3,9 +3,9 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import ImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
-import { OperationalLayer } from './OperationalLayer';
-import { BasemapLayer } from './BasemapLayer';
-import { WondermapLayer } from './LayerInterface';
+import { OperationalLayer } from './layers/OperationalLayer';
+import { BasemapLayer } from './layers/BasemapLayer';
+import { WondermapLayer } from './layers/LayerInterface';
 import { ToC } from './widgets/toc/toc';
 
 export class WonderMap {
