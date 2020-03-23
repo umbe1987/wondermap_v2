@@ -9,4 +9,8 @@ export class ToC extends Widget {
 
         this.element.className += ' wondermap-toc';
     }
+
+    openPanel(): void {
+        // define the method here
+    };
 }

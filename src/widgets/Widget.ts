@@ -16,4 +16,6 @@ export abstract class Widget extends Control {
         element.className = CSS_PREFIX + ' ol-unselectable ol-control';
         element.appendChild(button);
     }
+
+    abstract openPanel(): void;
 }
