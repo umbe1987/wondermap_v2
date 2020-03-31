@@ -23,7 +23,10 @@ export abstract class Widget extends Control {
     }
 
     protected async createPanel(file: string, selector: string) {
-        return await getTemplate(file, selector);
+        const html = await getTemplate(file, selector);
+        this.element.appendChild(html);
+
+        return html;
     }
 
     protected abstract openPanel(): void;

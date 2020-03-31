@@ -14,7 +14,7 @@ export class ToC extends Widget {
         let selector = '#toc-panel';
         
         this.createPanel(filePath, selector).then((panel) => {
-            this.element.appendChild(panel);
+            this.panel = panel;
         });
     }
 
