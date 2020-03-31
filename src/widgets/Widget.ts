@@ -22,9 +22,7 @@ export abstract class Widget extends Control {
     protected async createPanel(file: string, selector: string) {
         this.panel = await getTemplate(file, selector);
         this.element.appendChild(this.panel);
-        this.btn.onclick = function() {
-            this.openPanel()
-        }.bind(this);
+        this.btn.onclick = this.openPanel.bind(this);
     }
 
     protected abstract openPanel(): void;
