@@ -8,3 +8,7 @@
     width: 38px;
     background-image: url('./toc.svg');
 }
+
+.wondermap-toc #toc-panel {
+    display: none;
+}

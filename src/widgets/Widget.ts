@@ -6,27 +6,25 @@ const CSS_PREFIX = 'wondermap-widget';
 export abstract class Widget extends Control {
     getTemplate: Function;
     panel: Node;
+    btn: HTMLButtonElement;
     
-    constructor(opt_options?) {
-
-        const options = opt_options || {};
+    constructor() {
 
         const element = document.createElement('div');
-        super({element: element,
-            target: options.target});
+        super({element: element});
 
-        const button = document.createElement('button');
+        this.element = element;
+        this.btn = document.createElement('button');
         element.className = CSS_PREFIX + ' ol-unselectable ol-control';
-        element.appendChild(button);
-
-        button.onclick = this.openPanel;
+        element.appendChild(this.btn);
     }
 
     protected async createPanel(file: string, selector: string) {
-        const html = await getTemplate(file, selector);
-        this.element.appendChild(html);
-
-        return html;
+        this.panel = await getTemplate(file, selector);
+        this.element.appendChild(this.panel);
+        this.btn.onclick = function() {
+            this.openPanel()
+        }.bind(this);
     }
 
     protected abstract openPanel(): void;

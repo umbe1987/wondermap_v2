@@ -5,7 +5,7 @@ const CSS_PREFIX = 'wondermap-toc';
 export class ToC extends Widget {
     
     constructor() {
-        super({});
+        super();
 
         this.element.className += ' wondermap-toc';
 
@@ -13,12 +13,10 @@ export class ToC extends Widget {
         let filePath = './static/toc.template.html';
         let selector = '#toc-panel';
         
-        this.createPanel(filePath, selector).then((panel) => {
-            this.panel = panel;
-        });
+        this.createPanel(filePath, selector);
     }
 
     openPanel(): void {
-        // define the method here
+        (this.panel as HTMLElement).style.display = "block"; 
     };
 }
