@@ -22,6 +22,9 @@ export abstract class Widget extends Control {
     protected async createPanel(file: string, selector: string) {
         this.panel = await getTemplate(file, selector);
         this.element.appendChild(this.panel);
+        // bind this object to give context to openPanel
+        // function assigned to onclick event function
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
         this.btn.onclick = this.openPanel.bind(this);
     }
 
