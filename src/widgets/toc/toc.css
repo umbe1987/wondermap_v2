@@ -1,9 +1,9 @@
-.toc-panel {
+.toc-widget {
     bottom: .5em;
     right: .5em;
 }
 
-.toc-panel button {
+.toc-widget button {
     height: 38px; 
     width: 38px;
     background-image: url('./toc.svg');

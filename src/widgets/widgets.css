@@ -1,7 +1,5 @@
 /* generic widget button */
 .wondermap-widget {
-    position: absolute;
-    text-align: center;
     background-color: transparent;
 }
 
