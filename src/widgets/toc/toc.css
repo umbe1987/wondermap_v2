@@ -1,14 +1,10 @@
-.wondermap-toc {
+.toc-panel {
     bottom: .5em;
     right: .5em;
 }
 
-.wondermap-toc button {
+.toc-panel button {
     height: 38px; 
     width: 38px;
     background-image: url('./toc.svg');
-}
-
-.wondermap-toc #toc-panel {
-    display: none;
 }

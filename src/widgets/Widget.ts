@@ -21,6 +21,7 @@ export abstract class Widget extends Control {
 
     protected async createPanel(file: string, selector: string) {
         this.panel = await getTemplate(file, selector);
+        (this.panel as HTMLElement).classList.add("wondermap-panel");
         this.element.appendChild(this.panel);
         // bind this object to give context to openPanel
         // function assigned to onclick event function

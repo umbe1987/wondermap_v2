@@ -14,3 +14,15 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
+
+.wondermap-widget .wondermap-panel {
+    height: 0;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    background-color: white;
+}
