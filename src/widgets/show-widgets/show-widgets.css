@@ -1,9 +1,0 @@
-.show-widgets {
-    bottom: .5em;
-    right: .5em;
-    visibility: visible;
-}
-
-.show-widgets button {
-    background-image: url('./show-widgets.svg');
-}
