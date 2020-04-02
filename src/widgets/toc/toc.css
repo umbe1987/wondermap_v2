@@ -4,7 +4,5 @@
 }
 
 .toc-widget button {
-    height: 38px; 
-    width: 38px;
     background-image: url('./toc.svg');
 }
