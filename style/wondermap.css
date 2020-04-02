@@ -4,7 +4,5 @@
 
 /* WIDGETS STYLE */
 @import url("../src/widgets/widgets.css");
-/* ShowWidgets */
-@import url("../src/widgets/root/root.css");
 /* ToC */
 @import url("../src/widgets/toc/toc.css");
