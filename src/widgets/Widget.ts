@@ -5,6 +5,7 @@ const CSS_PREFIX = 'wondermap-widget';
 
 export abstract class Widget extends Control {
     getTemplate: Function;
+    element: HTMLElement;
     panel: Node;
     btn: HTMLButtonElement;
     
