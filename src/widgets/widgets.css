@@ -8,6 +8,7 @@
     height: 38px; 
     width: 38px;
     background-position: center;
+    background-size: contain;
     border-radius: 50%;
     background-repeat: no-repeat;
     cursor: pointer;
