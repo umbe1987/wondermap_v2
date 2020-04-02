@@ -6,29 +6,30 @@ import ImageWMS from 'ol/source/ImageWMS';
 import { OperationalLayer } from './layers/OperationalLayer';
 import { BasemapLayer } from './layers/BasemapLayer';
 import { WondermapLayer } from './layers/LayerInterface';
-import { ToC } from './widgets/toc/toc';
+import { Widget } from './widgets/Widget';
 
-export class WonderMap {
+export class WonderMap extends Map {
     private olMap: Map;
 
     constructor(id: string) {
-        this.olMap = new Map({
-            target: document.getElementById(id),
-            view: new View({
-              center: [0, 0],
-              zoom: 0
-            })
-        });
+      super({});
+      this.olMap = new Map({
+        target: document.getElementById(id),
+        view: new View({
+          center: [0, 0],
+          zoom: 0
+        })
+      });
 
-        this.olMap.addControl(new ToC());
+      // add basemap to map
+      this.addWonderBasemap(new BasemapLayer("OSM"));
 
-        this.addWonderBasemap(new BasemapLayer("OSM"));
-
-        this.addWonderLayer(new OperationalLayer(
-          "piste da sci",
-          "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
-          "piste_sci"
-        ));
+      // add operational layers to map
+      this.addWonderLayer(new OperationalLayer(
+        "piste da sci",
+        "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
+        "piste_sci"
+      ));
     }
 
     private addWonderLayer(layer: WondermapLayer): void {
@@ -50,5 +51,12 @@ export class WonderMap {
       this.olMap.addLayer(baseLyr);
       baseLyr.set('title', basemap.title);
       baseLyr.set('type', basemap.type);
+  }
+
+  addWonderWidgets(widgets: Widget[]): void {
+    // add widgets to map
+    widgets.forEach(function(widget) {
+      this.olMap.addControl(widget);
+  }, this);
   }
 }
