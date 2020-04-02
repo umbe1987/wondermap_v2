@@ -1,0 +1,9 @@
+.root-widget {
+    bottom: .5em;
+    right: .5em;
+    visibility: visible;
+}
+
+.root-widget button {
+    background-image: url('./root.svg');
+}
