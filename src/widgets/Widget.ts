@@ -29,5 +29,7 @@ export abstract class Widget extends Control {
         this.btn.onclick = this.openPanel.bind(this);
     }
 
-    protected abstract openPanel(): void;
+    private openPanel(): void {
+        (this.panel as HTMLElement).style.height = "100%";
+    };
 }

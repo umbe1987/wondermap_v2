@@ -12,8 +12,4 @@ export class ToC extends Widget {
         
         this.createPanel(filePath, selector);
     }
-
-    openPanel(): void {
-        (this.panel as HTMLElement).style.height = "100%";
-    };
 }
