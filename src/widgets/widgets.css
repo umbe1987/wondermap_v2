@@ -1,5 +1,6 @@
 /* generic widget button */
 .wondermap-widget {
+    visibility: hidden;
     background-color: transparent;
 }
 
