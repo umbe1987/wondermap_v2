@@ -1,17 +1,16 @@
 /* generic widget button */
-.wondermap-widget {
-    background-color: transparent;
-}
-
 .wondermap-widget button {
-    float: right;
     height: 38px; 
     width: 38px;
     background-size: contain;
     border: inset 10px transparent;
-    border-radius: 50%;
     background-repeat: no-repeat;
     cursor: pointer;
+    background-color: transparent;
+}
+
+.wondermap-widget button:hover {
+    background-color: rgb(211, 211, 211);
 }
 
 .wondermap-widget .wondermap-panel {

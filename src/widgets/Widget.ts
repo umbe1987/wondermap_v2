@@ -4,14 +4,13 @@ import { getTemplate } from '../get-template.service';
 const CSS_PREFIX = 'wondermap-widget';
 
 export abstract class Widget extends Control {
-    getTemplate: Function;
     element: HTMLElement;
     panel: Node;
     btn: HTMLButtonElement;
     
     constructor() {
 
-        const element = document.createElement('div');
+        const element = document.getElementById('widget-bar');
         super({element: element});
 
         this.element = element;
