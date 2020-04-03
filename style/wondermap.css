@@ -1,5 +1,10 @@
-#map {
-    height: 100%;
+#widget-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    box-shadow: 0 -.5em 18px #888888;
 }
 
 /* WIDGETS STYLE */
