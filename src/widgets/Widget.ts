@@ -10,13 +10,14 @@ export abstract class Widget extends Control {
     
     constructor() {
 
-        const element = document.getElementById('widget-bar');
-        super({element: element});
+        const widgetBar = document.getElementById('widget-bar');
+        super({element: widgetBar,
+            target: widgetBar});
 
-        this.element = element;
+        this.element = widgetBar;
         this.btn = document.createElement('button');
-        element.className = CSS_PREFIX + ' ol-unselectable ol-control';
-        element.appendChild(this.btn);
+        this.element.className = CSS_PREFIX + ' ol-unselectable ol-control';
+        this.element.appendChild(this.btn);
     }
 
     protected async createPanel(file: string, selector: string) {

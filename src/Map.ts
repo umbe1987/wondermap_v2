@@ -52,11 +52,4 @@ export class WonderMap extends Map {
       baseLyr.set('title', basemap.title);
       baseLyr.set('type', basemap.type);
   }
-
-  addWonderWidgets(widgets: Widget[]): void {
-    // add widgets to map
-    widgets.forEach(function(widget) {
-      this.olMap.addControl(widget);
-  }, this);
-  }
 }

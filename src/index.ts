@@ -3,12 +3,14 @@ import '../style/wondermap.css'
 import { WonderMap } from './Map';
 import { ToC } from './widgets/toc/toc';
 
-// define widgets
-const widgets = [new ToC()];
+// define map
+const map = new WonderMap('map');
 
 // define layers
 // TODO: pass layers to the map and remove their definition from Map.ts
 
-// define map
-const map = new WonderMap('map');
-map.addWonderWidgets(widgets);
+// define widgets
+const widgets = [new ToC()];
+
+// add widgets to widget-bar
+const widgetBar = document.getElementById("widget-bar");
