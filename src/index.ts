@@ -9,8 +9,5 @@ const map = new WonderMap('map');
 // define layers
 // TODO: pass layers to the map and remove their definition from Map.ts
 
-// define widgets
+// define widgets (they will be added in the widget-bar)
 const widgets = [new ToC()];
-
-// add widgets to widget-bar
-const widgetBar = document.getElementById("widget-bar");
