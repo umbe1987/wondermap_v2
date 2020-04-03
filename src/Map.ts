@@ -6,7 +6,6 @@ import ImageWMS from 'ol/source/ImageWMS';
 import { OperationalLayer } from './layers/OperationalLayer';
 import { BasemapLayer } from './layers/BasemapLayer';
 import { WondermapLayer } from './layers/LayerInterface';
-import { Widget } from './widgets/Widget';
 
 export class WonderMap extends Map {
     private olMap: Map;
