@@ -8,11 +8,11 @@ import { BasemapLayer } from './layers/BasemapLayer';
 import { WondermapLayer } from './layers/LayerInterface';
 
 export class WonderMap extends Map {
-    private olMap: Map;
+    private wonderMap: Map;
 
     constructor(id: string) {
       super({});
-      this.olMap = new Map({
+      this.wonderMap = new Map({
         target: document.getElementById(id),
         view: new View({
           center: [0, 0],
@@ -39,7 +39,7 @@ export class WonderMap extends Map {
             url: layer.url
         })
       })
-      this.olMap.addLayer(olLyr);
+      this.wonderMap.addLayer(olLyr);
       olLyr.set('title', layer.title);
     }
 
@@ -47,7 +47,7 @@ export class WonderMap extends Map {
       const baseLyr = new TileLayer({
         source: new OSM()
       })
-      this.olMap.addLayer(baseLyr);
+      this.wonderMap.addLayer(baseLyr);
       baseLyr.set('title', basemap.title);
       baseLyr.set('type', basemap.type);
   }
