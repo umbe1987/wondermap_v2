@@ -7,11 +7,11 @@ import { ToC } from './widgets/toc/toc';
 
 // define layers
 const layers = [
+    new BasemapLayer(),
     new WonderLayer(
         "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
         "piste_sci"
     ),
-    new BasemapLayer(),
 ];
 
 // define map
