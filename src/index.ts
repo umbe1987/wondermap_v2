@@ -2,6 +2,7 @@ import 'ol/ol.css';
 import '../style/wondermap.css'
 import { WonderMap } from './Map';
 import { WonderLayer } from './layers/OperationalLayer';
+import { BasemapLayer } from './layers/BasemapLayer';
 import { ToC } from './widgets/toc/toc';
 
 // define layers
@@ -10,6 +11,7 @@ const layers = [
         "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
         "piste_sci"
     ),
+    new BasemapLayer(),
 ];
 
 // define map

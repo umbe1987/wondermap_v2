@@ -1,6 +1,4 @@
 import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
 import BaseLayer from 'ol/layer/Base';
 
 export class WonderMap {
@@ -18,11 +16,6 @@ export class WonderMap {
     
     // add layers
     this.addLayers(layers);
-
-    // add basemap to map
-    this.wonderMap.addLayer(new TileLayer({
-      source: new OSM()
-    }));
   }
 
   addLayers(layers: BaseLayer[]) {

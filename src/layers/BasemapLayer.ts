@@ -1,13 +1,13 @@
-export class BasemapLayer {
-    title: string;
-    type: string;
-    url?: string;
-    fold?: string;
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
 
-    constructor(title: string, url?: string) {
-        this.type = 'base';
-        this.title = title;
-        this.url = url;
 
+export class BasemapLayer extends TileLayer {
+
+    constructor(url?: string) {
+        super();
+        new TileLayer({
+            source: new OSM()
+        })
     }
 }
