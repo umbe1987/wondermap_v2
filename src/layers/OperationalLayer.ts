@@ -1,12 +1,16 @@
-export class OperationalLayer {
-    title: string;
-    url: string;
-    layerName: string;
+import ImageLayer from 'ol/layer/Image';
+import ImageWMS from 'ol/source/ImageWMS';
 
-    constructor(title: string, url: string, name: string, fold?: string) {
-        this.title = title;
-        this.url = url;
-        this.layerName = name;
-
+export class WonderLayer extends ImageLayer {
+    
+    constructor(url: string, name: string) {
+        super();
+        new ImageLayer({
+            source: new ImageWMS({
+                ratio: 1,
+                params: {'LAYERS': name},
+                url: url,
+            })
+        })
     }
 }

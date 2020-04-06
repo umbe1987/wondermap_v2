@@ -1,53 +1,33 @@
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
-import ImageLayer from 'ol/layer/Image';
-import ImageWMS from 'ol/source/ImageWMS';
-import { OperationalLayer } from './layers/OperationalLayer';
-import { BasemapLayer } from './layers/BasemapLayer';
-import { WondermapLayer } from './layers/LayerInterface';
+import BaseLayer from 'ol/layer/Base';
 
 export class WonderMap {
-    private wonderMap: Map;
+  private wonderMap: Map;
 
-    constructor(id: string) {
-      this.wonderMap = new Map({
-        target: document.getElementById(id),
-        view: new View({
-          center: [0, 0],
-          zoom: 0
-        })
-      });
-
-      // add basemap to map
-      this.addWonderBasemap(new BasemapLayer("OSM"));
-
-      // add operational layers to map
-      this.addWonderLayer(new OperationalLayer(
-        "piste da sci",
-        "https://www.wondermap.it/cgi-bin/qgis_mapserv.fcgi?map=/home/umberto/qgis/projects/Demo_sci_WMS/demo_sci.qgs&",
-        "piste_sci"
-      ));
-    }
-
-    private addWonderLayer(layer: WondermapLayer): void {
-      const olLyr = new ImageLayer({
-        source: new ImageWMS({
-            ratio: 1,
-            params: {'LAYERS': layer.layerName},
-            url: layer.url
-        })
+  // https://stackoverflow.com/a/43326461/1979665
+  constructor(id: string, layers: BaseLayer[] = []) {
+    this.wonderMap = new Map({
+      target: document.getElementById(id),
+      view: new View({
+        center: [0, 0],
+        zoom: 0
       })
-      this.wonderMap.addLayer(olLyr);
-      olLyr.set('title', layer.title);
-    }
+    });
+    
+    // add layers
+    this.addLayers(layers);
 
-    private addWonderBasemap(basemap: WondermapLayer): void {
-      const baseLyr = new TileLayer({
-        source: new OSM()
-      })
-      this.wonderMap.addLayer(baseLyr);
-      baseLyr.set('title', basemap.title);
-      baseLyr.set('type', basemap.type);
+    // add basemap to map
+    this.wonderMap.addLayer(new TileLayer({
+      source: new OSM()
+    }));
+  }
+
+  addLayers(layers: BaseLayer[]) {
+    layers.forEach(lyr => {
+      this.wonderMap.addLayer(lyr);
+    })
   }
 }
