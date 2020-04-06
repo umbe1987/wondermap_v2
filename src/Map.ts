@@ -7,11 +7,10 @@ import { OperationalLayer } from './layers/OperationalLayer';
 import { BasemapLayer } from './layers/BasemapLayer';
 import { WondermapLayer } from './layers/LayerInterface';
 
-export class WonderMap extends Map {
+export class WonderMap {
     private wonderMap: Map;
 
     constructor(id: string) {
-      super({});
       this.wonderMap = new Map({
         target: document.getElementById(id),
         view: new View({
