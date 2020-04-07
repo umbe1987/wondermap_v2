@@ -16,7 +16,7 @@ export abstract class Widget extends Control {
 
         this.element = widgetBar;
         this.btn = document.createElement('button');
-        this.element.className = CSS_PREFIX + ' ol-unselectable ol-control';
+        this.element.className = CSS_PREFIX;
         this.element.appendChild(this.btn);
     }
 

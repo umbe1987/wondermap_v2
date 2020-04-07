@@ -1,8 +1,19 @@
+html, body {
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+}
+
+#map {
+    height: calc(100% - 38px);
+}
+
 #widget-bar {
-    bottom: 0;
+    height: 38px;
     width: 100%;
     background-color: white;
-    display: flex;
     box-shadow: 0 -.5em 18px #888888;
 }
 
