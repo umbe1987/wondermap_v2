@@ -17,9 +17,12 @@
     height: 0;
     width: 100%;
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 38px;
     overflow-x: hidden;
     transition: 0.5s;
     background-color: white;
+}
+
+.wondermap-widget .wondermap-panel.active {
+    height: calc(100% - 38px);
 }

@@ -31,6 +31,6 @@ export abstract class Widget extends Control {
     }
 
     private openPanel(): void {
-        (this.panel as HTMLElement).style.height = "100%";
+        (this.panel as HTMLElement).classList.add("active");
     };
 }

@@ -6,11 +6,9 @@ body {
     margin: 0;
 }
 
-#map {
-    height: calc(100% - 38px);
-}
-
 #widget-bar {
+    position: fixed;
+    bottom: 0;
     height: 38px;
     width: 100%;
     background-color: white;
