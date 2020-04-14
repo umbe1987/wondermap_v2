@@ -8,17 +8,6 @@ body {
     margin: 0;
 }
 
-ul, li {
-    margin: 0;
-	padding: 0;
-	border: 0;
-	vertical-align: baseline;
-}
-
-ul {
-    list-style: none;
-}
-
 /* WIDGET-BAR STYLE */
 #widget-bar {
     position: fixed;
@@ -27,6 +16,21 @@ ul {
     width: 100%;
     background-color: white;
     box-shadow: 0 -.5em 18px #888888;
+}
+
+#widget-bar > ul, #widget-bar > ul > li {
+    margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+#widget-bar > ul {
+    list-style: none;
+}
+
+#widget-bar > ul > li {
+    float: left;
 }
 
 /* WIDGETS STYLE */
