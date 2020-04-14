@@ -4,11 +4,11 @@ const CSS_PREFIX = 'wondermap-widget';
 
 export abstract class Widget {
     panel: Node;
-    element: HTMLButtonElement;
+    element: HTMLLIElement;
     
     constructor() {
 
-        this.element = document.createElement('button');
+        this.element = document.createElement('li');
         this.element.className = CSS_PREFIX;
     }
 

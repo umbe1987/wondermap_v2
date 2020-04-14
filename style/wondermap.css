@@ -1,3 +1,5 @@
+/* PERSONAL RESET CSS */
+
 html, body {
     height: 100vh;
 }
@@ -6,6 +8,18 @@ body {
     margin: 0;
 }
 
+ul, li {
+    margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+ul {
+    list-style: none;
+}
+
+/* WIDGET-BAR STYLE */
 #widget-bar {
     position: fixed;
     bottom: 0;
