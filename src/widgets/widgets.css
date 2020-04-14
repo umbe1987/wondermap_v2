@@ -13,7 +13,7 @@
     background-color: rgb(211, 211, 211);
 }
 
-.wondermap-widget .wondermap-panel {
+.wondermap-panel {
     height: 0;
     width: 100%;
     position: fixed;
@@ -23,6 +23,6 @@
     background-color: white;
 }
 
-.wondermap-widget .wondermap-panel.active {
+.wondermap-panel.active {
     height: calc(100% - 38px);
 }

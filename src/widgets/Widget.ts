@@ -15,7 +15,7 @@ export abstract class Widget {
     protected async createPanel(file: string, selector: string) {
         this.panel = await getTemplate(file, selector);
         (this.panel as HTMLElement).classList.add("wondermap-panel");
-        this.element.appendChild(this.panel);
+        document.body.appendChild(this.panel);
         // bind this object to give context to openPanel
         // function assigned to onclick event function
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
@@ -23,6 +23,7 @@ export abstract class Widget {
     }
 
     private openPanel(): void {
+        console.log("pressed");
         (this.panel as HTMLElement).classList.add("active");
     };
 }
