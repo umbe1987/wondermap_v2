@@ -1,23 +1,15 @@
-import Control from 'ol/control/Control';
 import { getTemplate } from '../get-template.service';
 
 const CSS_PREFIX = 'wondermap-widget';
 
-export abstract class Widget extends Control {
-    element: HTMLElement;
+export abstract class Widget {
     panel: Node;
-    btn: HTMLButtonElement;
+    element: HTMLButtonElement;
     
     constructor() {
 
-        const widgetBar = document.getElementById('widget-bar');
-        super({element: widgetBar,
-            target: widgetBar});
-
-        this.element = widgetBar;
-        this.btn = document.createElement('button');
+        this.element = document.createElement('button');
         this.element.className = CSS_PREFIX;
-        this.element.appendChild(this.btn);
     }
 
     protected async createPanel(file: string, selector: string) {
@@ -27,7 +19,7 @@ export abstract class Widget extends Control {
         // bind this object to give context to openPanel
         // function assigned to onclick event function
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-        this.btn.onclick = this.openPanel.bind(this);
+        this.element.onclick = this.openPanel.bind(this);
     }
 
     private openPanel(): void {

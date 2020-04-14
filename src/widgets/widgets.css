@@ -1,5 +1,5 @@
 /* generic widget button */
-.wondermap-widget button {
+.wondermap-widget {
     height: 38px; 
     width: 38px;
     background-size: contain;
@@ -9,7 +9,7 @@
     background-color: transparent;
 }
 
-.wondermap-widget button:hover {
+.wondermap-widget:hover {
     background-color: rgb(211, 211, 211);
 }
 

@@ -3,6 +3,7 @@ import '../style/wondermap.css'
 import { WonderMap } from './Map';
 import { WonderLayer } from './layers/OperationalLayer';
 import { BasemapLayer } from './layers/BasemapLayer';
+import { WidgetBar } from './widgets/widgetBar';
 import { ToC } from './widgets/toc/toc';
 
 // define layers
@@ -20,5 +21,6 @@ const layers = [basemaps, operationalLayers]
 // define map
 const map = new WonderMap('map', ...layers);
 
-// define widgets (they will be added in the widget-bar)
+// define widgets and add them to the widget-bar)
 const widgets = [new ToC()];
+new WidgetBar(map, widgets);

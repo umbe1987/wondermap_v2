@@ -1,5 +1,6 @@
 import {Map, View} from 'ol';
 import BaseLayer from 'ol/layer/Base';
+import Control from 'ol/control/Control';
 
 export class WonderMap {
   private wonderMap: Map;
@@ -22,5 +23,9 @@ export class WonderMap {
     layers.forEach(lyr => {
       this.wonderMap.addLayer(lyr);
     })
+  }
+
+  addControl(control: Control) {
+    this.wonderMap.addControl(control);
   }
 }
