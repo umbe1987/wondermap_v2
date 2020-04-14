@@ -23,7 +23,6 @@ export abstract class Widget {
     }
 
     private openPanel(): void {
-        console.log("pressed");
         (this.panel as HTMLElement).classList.add("active");
     };
 }
