@@ -16,10 +16,10 @@ const operationalLayers = [
     "piste_sci"
     ),
 ];
-const layers = [basemaps, operationalLayers]
+const layers = [...basemaps, ...operationalLayers];
 
 // define map
-const map = new WonderMap('map', ...layers);
+const map = new WonderMap('map', layers);
 
 // define widgets and add them to the widget-bar)
 const widgets = [new ToC()];
