@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@types/ol": "^6.1.0",
+    "axios": "^0.19.2",
     "ol": "^6.2.1"
   }
 }
