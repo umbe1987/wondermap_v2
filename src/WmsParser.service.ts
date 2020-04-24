@@ -21,20 +21,21 @@ export class WmsParser {
         this.layers = layers;
     }
 
-    private static getLayersFromCapability(lyrCapability: WMSLayer): Promise<WMSLayer[]> {
+    private static async getLayersFromCapability(lyrCapability: WMSLayer): Promise<WMSLayer[]> {
         if (lyrCapability.Layer) {
             let layerGroup: WMSLayer = {
                 Title: lyrCapability.Title,
                 Name: lyrCapability.Title, // TO CHANGE: workaround as most root layers do not have Names...
                 type: 'group',
-                Layer: lyrCapability.Layer,
+                Layer: [],
             };
             
-            layerGroup.Layer.forEach(lyr => {
-                this.getLayersFromCapability(lyr);
+            lyrCapability.Layer.forEach(async lyr => {
+                const lyrArr = await this.getLayersFromCapability(lyr);
+                layerGroup.Layer.push(lyrArr[0]);
             });
             
-            return Promise.resolve([layerGroup]);
+            return [layerGroup];
 
         } else if (!lyrCapability.Layer) {
             let layer: WMSLayer = {
@@ -43,7 +44,7 @@ export class WmsParser {
                 type: 'layer',
             };
 
-            return;
+            return [layer];
         }
     }
 
