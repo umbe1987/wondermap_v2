@@ -21,7 +21,7 @@ export class WmsParser {
         this.layers = layers;
     }
 
-    private static getLayersFromCapability(lyrCapability: WMSLayer, lyrParent: WMSLayer = null): Promise<WMSLayer[]> {
+    private static getLayersFromCapability(lyrCapability: WMSLayer): Promise<WMSLayer[]> {
         if (lyrCapability.Layer) {
             let layerGroup: WMSLayer = {
                 Title: lyrCapability.Title,
@@ -31,7 +31,7 @@ export class WmsParser {
             };
             
             layerGroup.Layer.forEach(lyr => {
-                this.getLayersFromCapability(lyr, layerGroup);
+                this.getLayersFromCapability(lyr);
             });
             
             return Promise.resolve([layerGroup]);
@@ -42,8 +42,6 @@ export class WmsParser {
                 Name: lyrCapability.Name,
                 type: 'layer',
             };
-
-            lyrParent.Layer.push(layer);
 
             return;
         }
