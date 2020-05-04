@@ -1,8 +1,10 @@
 import ImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
+import { WonderLayer } from './WonderLayer';
 
-export class WonderLayer extends ImageLayer {
-    private wonderLayer: ImageLayer;
+export class OperationalLayer extends ImageLayer implements WonderLayer {
+    private operationalLayer: ImageLayer;
+    type: string;
     
     constructor(url: string, name: string) {
 
@@ -14,7 +16,9 @@ export class WonderLayer extends ImageLayer {
 
         super({source});
 
-        this.wonderLayer = new ImageLayer({
+        this.type = 'operational';
+
+        this.operationalLayer = new ImageLayer({
             source: source,
         })
     }
