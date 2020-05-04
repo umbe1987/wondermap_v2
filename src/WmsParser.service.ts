@@ -57,7 +57,6 @@ export class WmsParser {
         try {
             const response = await axios.get(url);
             const result = await parser.read(response.data);
-            console.log(result.Capability.Layer);
 
             const [layers] = await Promise.all(
                 [
