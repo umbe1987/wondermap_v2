@@ -7,7 +7,6 @@ import TileWMS from 'ol/source/TileWMS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
 import {get as getProjection} from 'ol/proj';
 import {getWidth, getTopLeft} from 'ol/extent';
-import { WonderLayer } from './WonderLayer';
 
 enum BasemapTypes {
     XYZ = 'xyz',
@@ -28,9 +27,8 @@ for (let z = 0; z < 14; ++z) {
   matrixIds[z] = z;
 }
 
-export class BasemapLayer extends TileLayer implements WonderLayer{
+export class BasemapLayer extends TileLayer {
     source: TileImage;
-    type: string;
 
     constructor(type?: BasemapTypes, url?: string, layer?: string) {
         let source: TileImage;
@@ -66,9 +64,6 @@ export class BasemapLayer extends TileLayer implements WonderLayer{
         }
         
         super({source});
-        
-        this.type = 'basemap';
-
         new TileLayer({
             source: this.source,
         })
