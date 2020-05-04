@@ -1,63 +1,86 @@
 import { Widget } from '../Widget';
 import { WmsParser, WMSLayer } from '../../WmsParser.service';
 import { OperationalLayer } from '../../layers/OperationalLayer';
-import { BasemapLayer } from '../../layers/BasemapLayer';
-import Collection from 'ol/Collection';
+import { WonderMap } from '../../Map';
+import { Collection } from 'ol';
 
 export class ToC extends Widget {
     
-    constructor(layers: Collection<OperationalLayer | BasemapLayer>) {
+    constructor(map: WonderMap, urls: string[]) {
         super();
 
         this.element.id = "toc";
         // static folder must exists in the dist folder and html files must be copied to it!
         let filePath = './static/toc.template.html';
         let selector = '#toc-panel';
-        
-        this.createPanel(filePath, selector).then(() => {
-            layers.forEach(lyr => {
-                if (lyr.type === 'operational') {
-                    const parser = WmsParser.getParams(lyr.getSource().get('url'));
-                    parser.then(result => {
-                        this.listLayers(result.layers, (this.panel as HTMLElement));
-                    })
-                }
-                
-            });
-        });
+
+        urls.forEach(url => {
+            // parses the WMS GetCapabilities response based of current URL
+            const parser = WmsParser.getParams(url);
+            parser.then(result => {
+                // creates the widget panel
+                this.createPanel(filePath, selector).then(() => {
+                    // place the layer tree inside the panel
+                    this.createLayerTree(result.layers, (this.panel as HTMLElement));
+                })
+
+                // create an OpenLayers layer for each layer found in WMS (not group of layers)
+                const OLlayers = this.createMapLayers(url, result.layers);
+                map.addLayers(OLlayers);
+            })
+        })
     }
 
-    private listLayers(layers: WMSLayer[], parent: HTMLElement) {
+    private createLayerTree(layers: WMSLayer[], parent: HTMLElement) {
         const ul = document.createElement('UL');
 
         layers.forEach(lyr => {
             const li = document.createElement('LI');
-            const liContent = createCheck(lyr.Name, lyr.Title);
+            const liContent = this.createCheck(lyr.Name, lyr.Title);
             li.appendChild(liContent[0]); // <input>
             li.appendChild(liContent[1]); // <label>
 
             ul.appendChild(li);
 
             if (lyr.Layer) {
-                this.listLayers(lyr.Layer, ul);
+                this.createLayerTree(lyr.Layer, ul);
             }
             parent.appendChild(ul);
         });
     }
-}
 
-function createCheck(code: string, name: string) {
-    const input = document.createElement('INPUT');
-    input.setAttribute("type", "checkbox");
-    input.id = code;
-    input.setAttribute("value", code);
+    private createCheck(code: string, name: string) {
+        const input = document.createElement('INPUT');
+        input.setAttribute("type", "checkbox");
+        input.id = code;
+        input.setAttribute("value", code);
+    
+        const label = document.createElement("Label");
+        label.setAttribute("for", code);
+    
+        const labelText = document.createTextNode(name);
+    
+        label.appendChild(labelText);
+    
+        return [input, label];
+    }
 
-    const label = document.createElement("Label");
-    label.setAttribute("for", code);
+    private createMapLayers(url:string, layers: WMSLayer[]) {
+        let result: Collection<OperationalLayer> | undefined;
+        result = new Collection();
+        this.eachRecursive(url, layers, result);
+        
+        return result;
+    }
 
-    const labelText = document.createTextNode(name);
-
-    label.appendChild(labelText);
-
-    return [input, label];
+    private eachRecursive(url: string, layers: WMSLayer[], result: Collection<OperationalLayer>) {
+        layers.forEach(lyr => {
+            if (lyr.type === 'group') {
+                this.eachRecursive(url, lyr.Layer, result);
+                
+            } else {
+                result.push(new OperationalLayer(url, lyr.Name));
+            }
+        })
+    }
 }
