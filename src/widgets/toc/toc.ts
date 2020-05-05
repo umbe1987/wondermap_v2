@@ -14,19 +14,19 @@ export class ToC extends Widget {
         let filePath = './static/toc.template.html';
         let selector = '#toc-panel';
 
-        urls.forEach(url => {
-            // parses the WMS GetCapabilities response based of current URL
-            const parser = WmsParser.getParams(url);
-            parser.then(result => {
-                // creates the widget panel
-                this.createPanel(filePath, selector).then(() => {
+        // creates the widget panel
+        this.createPanel(filePath, selector).then(() => {
+            urls.forEach(url => {
+                // parses the WMS GetCapabilities response based of current URL
+                const parser = WmsParser.getParams(url);
+                parser.then(result => {
                     // place the layer tree inside the panel
                     this.createLayerTree(result.layers, (this.panel as HTMLElement));
-                })
 
-                // create an OpenLayers layer for each layer found in WMS (not group of layers)
-                const OLlayers = this.createMapLayers(url, result.layers);
-                map.addLayers(OLlayers);
+                    // create an OpenLayers layer for each layer found in WMS (not group of layers)
+                    const OLlayers = this.createMapLayers(url, result.layers);
+                    map.addLayers(OLlayers);
+                })
             })
         })
     }
