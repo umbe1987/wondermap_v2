@@ -1,3 +1,11 @@
 #toc {
     background-image: url('./toc.svg');
 }
+
+#toc-panel .toc-list {
+    list-style-type:none;
+}
+
+#toc-panel fieldset {
+    border: 0;
+}

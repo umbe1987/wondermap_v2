@@ -33,12 +33,12 @@ export class ToC extends Widget {
 
     private createLayerTree(layers: WMSLayer[], parent: HTMLElement) {
         const ul = document.createElement('UL');
+        ul.classList.add("toc-list");
 
         layers.forEach(lyr => {
             const li = document.createElement('LI');
             const liContent = this.createCheck(lyr.Name, lyr.Title);
-            li.appendChild(liContent[0]); // <input>
-            li.appendChild(liContent[1]); // <label>
+            li.appendChild(liContent);
 
             ul.appendChild(li);
 
@@ -50,19 +50,26 @@ export class ToC extends Widget {
     }
 
     private createCheck(code: string, name: string) {
+        const fieldset = document.createElement("fieldset");
+        fieldset.id = code;
+
+        const label = document.createElement("Label");
+        label.setAttribute("for", "visible_" + code);
+        label.classList.add("checkbox");
+
         const input = document.createElement('INPUT');
         input.setAttribute("type", "checkbox");
-        input.id = code;
-        input.setAttribute("value", code);
-    
-        const label = document.createElement("Label");
-        label.setAttribute("for", code);
-    
+        input.id = "visible_" + code;
+        input.classList.add("visible");
+
+        label.appendChild(input);
+        fieldset.appendChild(label);
+
         const labelText = document.createTextNode(name);
     
         label.appendChild(labelText);
     
-        return [input, label];
+        return fieldset;
     }
 
     private createMapLayers(url:string, layers: WMSLayer[]) {
