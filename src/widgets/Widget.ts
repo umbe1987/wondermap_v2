@@ -19,10 +19,24 @@ export abstract class Widget {
         // bind this object to give context to openPanel
         // function assigned to onclick event function
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
-        this.element.onclick = this.openPanel.bind(this);
+        this.element.onclick = this.togglePanel.bind(this);
+
+        return this.panel;
+    }
+
+    private togglePanel(): void {
+        if ((this.panel as HTMLElement).classList.contains("active")) {
+            this.closePanel();
+        } else {
+            this.openPanel();
+        }
     }
 
     private openPanel(): void {
         (this.panel as HTMLElement).classList.add("active");
     };
+
+    private closePanel(): void {
+        (this.panel as HTMLElement).classList.remove("active");
+    }
 }
