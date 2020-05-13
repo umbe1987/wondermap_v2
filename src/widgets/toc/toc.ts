@@ -42,7 +42,7 @@ export class ToC extends Widget {
 
             // build checkbox for layer as HTML Element
             const li = document.createElement('LI');
-            const liContent = this.createCheck(uuid, lyr.Title);
+            const liContent = this.createFieldSet(uuid, lyr.Title);
 
             liContent.classList.add(lyr.type); // whether it's a group or a layer
 
@@ -56,6 +56,7 @@ export class ToC extends Widget {
             }
             const opLyr = new OperationalLayer(url, lyr.Name, uuid);
             map.addLayer(opLyr);
+            this.bindInput(uuid, liContent, opLyr);
                 
             group.getLayers().push(opLyr);
             parent.appendChild(ul);
@@ -64,7 +65,7 @@ export class ToC extends Widget {
         return tocLayers;
     }
 
-    private createCheck(code: string, name: string) {
+    private createFieldSet(code: string, name: string) {
         const fieldset = document.createElement("fieldset");
         fieldset.id = code;
 
@@ -87,11 +88,12 @@ export class ToC extends Widget {
         return fieldset;
     }
 
-    private bindInputs(layerid: string, layer: OperationalLayer) {
-        const visibilityInput: HTMLInputElement = document.querySelector(`input.visible#visible_${layerid}`);
-        visibilityInput.onchange = function(e) {
-          layer.setVisible((e.target as HTMLInputElement).value as unknown as boolean);
+    private bindInput(layerid: string, layerFieldSet: HTMLFieldSetElement, olLayer: OperationalLayer) {
+        const layerCheckbox = layerFieldSet.children.item(0).children.item(0) as HTMLInputElement;
+        layerCheckbox.onchange = function(e) {
+            olLayer.setVisible((e.target as HTMLInputElement).checked);
+            console.log((e.target as HTMLInputElement).checked);
         };
-        visibilityInput.checked = layer.getVisible();
+        layerCheckbox.checked = olLayer.getVisible();
       }
 }
