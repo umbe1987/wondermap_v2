@@ -2,7 +2,8 @@ import { Widget } from '../Widget';
 import { WmsParser, WMSLayer } from '../../WmsParser.service';
 import { OperationalLayer } from '../../layers/OperationalLayer';
 import { WonderMap } from '../../Map';
-import { Collection } from 'ol';
+import LayerGroup from 'ol/layer/Group';
+import { genUUID } from '../../random-uuid.service';
 
 export class ToC extends Widget {
     
@@ -13,40 +14,54 @@ export class ToC extends Widget {
         // static folder must exists in the dist folder and html files must be copied to it!
         let filePath = './static/toc.template.html';
         let selector = '#toc-panel';
-
+        
         // creates the widget panel
         this.createPanel(filePath, selector).then(() => {
-            urls.forEach(url => {
-                // parses the WMS GetCapabilities response based of current URL
-                const parser = WmsParser.getParams(url);
-                parser.then(result => {
-                    // place the layer tree inside the panel
-                    this.createLayerTree(result.layers, (this.panel as HTMLElement));
+            urls.map(function (url) {
+                WmsParser.getParams(url).then(result => {
+                    const wmsLayers = result.layers;
+                    this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map);
+                });
+            }, this);
+        });
 
-                    // create an OpenLayers layer for each layer found in WMS (not group of layers)
-                    const OLlayers = this.createMapLayers(url, result.layers);
-                    map.addLayers(OLlayers);
-                })
-            })
-        })
+        
     }
 
-    private createLayerTree(layers: WMSLayer[], parent: HTMLElement) {
+    private createLayers(layers: WMSLayer[], parent: HTMLElement, url: string, map: WonderMap, group = new LayerGroup()) {
+        // create an OpenLayers layer or group layer for each layer or group found in WMS
+        // create the toc tree and place it inside panel
+
+        let tocLayers: HTMLFieldSetElement[] = [];
         const ul = document.createElement('UL');
         ul.classList.add("toc-list");
 
         layers.forEach(lyr => {
+            // generate unique layer identifier
+            const uuid = genUUID();
+
+            // build checkbox for layer as HTML Element
             const li = document.createElement('LI');
-            const liContent = this.createCheck(lyr.Name, lyr.Title);
+            const liContent = this.createCheck(uuid, lyr.Title);
+
+            liContent.classList.add(lyr.type); // whether it's a group or a layer
+
+            tocLayers.push(liContent);
             li.appendChild(liContent);
 
             ul.appendChild(li);
 
             if (lyr.Layer) {
-                this.createLayerTree(lyr.Layer, ul);
+                tocLayers.push(...this.createLayers(lyr.Layer, ul, url, map, group));
             }
+            const opLyr = new OperationalLayer(url, lyr.Name, uuid);
+            map.addLayer(opLyr);
+                
+            group.getLayers().push(opLyr);
             parent.appendChild(ul);
-        });
+        }, tocLayers);
+
+        return tocLayers;
     }
 
     private createCheck(code: string, name: string) {
@@ -72,22 +87,11 @@ export class ToC extends Widget {
         return fieldset;
     }
 
-    private createMapLayers(url:string, layers: WMSLayer[]) {
-        let result: Collection<OperationalLayer> | undefined;
-        result = new Collection();
-        this.eachRecursive(url, layers, result);
-        
-        return result;
-    }
-
-    private eachRecursive(url: string, layers: WMSLayer[], result: Collection<OperationalLayer>) {
-        layers.forEach(lyr => {
-            if (lyr.type === 'group') {
-                this.eachRecursive(url, lyr.Layer, result);
-                
-            } else {
-                result.push(new OperationalLayer(url, lyr.Name));
-            }
-        })
-    }
+    private bindInputs(layerid: string, layer: OperationalLayer) {
+        const visibilityInput: HTMLInputElement = document.querySelector(`input.visible#visible_${layerid}`);
+        visibilityInput.onchange = function(e) {
+          layer.setVisible((e.target as HTMLInputElement).value as unknown as boolean);
+        };
+        visibilityInput.checked = layer.getVisible();
+      }
 }

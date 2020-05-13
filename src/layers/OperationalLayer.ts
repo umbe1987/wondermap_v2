@@ -3,9 +3,9 @@ import ImageWMS from 'ol/source/ImageWMS';
 
 export class OperationalLayer extends ImageLayer {
     private operationalLayer: ImageLayer;
+    id: String;
     
-    constructor(url: string, name: string) {
-
+    constructor(url: string, name: string, id: string) {
         const source = new ImageWMS({
             ratio: 1,
             params: {'LAYERS': name},
@@ -13,6 +13,8 @@ export class OperationalLayer extends ImageLayer {
         });
 
         super({source});
+
+        this.id = id;
 
         this.operationalLayer = new ImageLayer({
             source: source,

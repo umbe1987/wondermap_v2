@@ -3,12 +3,14 @@ import { OperationalLayer } from './layers/OperationalLayer';
 import { BasemapLayer } from './layers/BasemapLayer';
 import Control from 'ol/control/Control';
 import Collection from 'ol/Collection';
+import LayerGroup from 'ol/layer/Group';
+import BaseLayer from 'ol/layer/Base';
 
 export class WonderMap {
   private wonderMap: Map;
 
   // https://stackoverflow.com/a/43326461/1979665
-  constructor(id: string, layers: Collection<OperationalLayer | BasemapLayer>) {
+  constructor(id: string, layers: LayerGroup) {
     this.wonderMap = new Map({
       target: document.getElementById(id),
       view: new View({
@@ -18,17 +20,22 @@ export class WonderMap {
     });
     
     // add layers
-    this.addLayers(layers);
+    layers.getLayers().forEach(lyr => {
+      this.addLayer(lyr);
+    })
+    
   }
 
-  addLayers(layers: Collection<OperationalLayer | BasemapLayer>) {
-    layers.forEach(lyr => {
-      this.wonderMap.addLayer(lyr);
-    })
+  addLayer(layer: BaseLayer) {
+    this.wonderMap.addLayer(layer);
   }
 
   getLayers(): Collection<OperationalLayer | BasemapLayer> {
     return this.wonderMap.getLayers() as Collection<OperationalLayer | BasemapLayer>;
+  }
+
+  getLayerGroup() {
+    return this.wonderMap.getLayerGroup;
   }
 
   addControl(control: Control) {
