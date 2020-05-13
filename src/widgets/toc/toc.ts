@@ -89,7 +89,7 @@ export class ToC extends Widget {
     }
 
     private bindInput(layerid: string, layerFieldSet: HTMLFieldSetElement, olLayer: OperationalLayer) {
-        const layerCheckbox = layerFieldSet.children.item(0).children.item(0) as HTMLInputElement;
+        const layerCheckbox = layerFieldSet.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
         layerCheckbox.onchange = function(e) {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
             console.log((e.target as HTMLInputElement).checked);
