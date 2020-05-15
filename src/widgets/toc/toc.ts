@@ -4,6 +4,7 @@ import { OperationalLayer } from '../../layers/OperationalLayer';
 import { WonderMap } from '../../Map';
 import LayerGroup from 'ol/layer/Group';
 import { genUUID } from '../../random-uuid.service';
+import BaseLayer from 'ol/layer/Base';
 
 export class ToC extends Widget {
     
@@ -20,7 +21,8 @@ export class ToC extends Widget {
             urls.map(function (url) {
                 WmsParser.getParams(url).then(result => {
                     const wmsLayers = result.layers;
-                    this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map);
+                    const layerGroup = this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map)['layerGroup'];
+                    map.addLayer(layerGroup);
                 });
             }, this);
         });
@@ -51,18 +53,23 @@ export class ToC extends Widget {
 
             ul.appendChild(li);
 
+            // if lyr is a layer group
             if (lyr.Layer) {
-                tocLayers.push(...this.createLayers(lyr.Layer, ul, url, map, group));
+                const innerGroup = new LayerGroup();
+                group.getLayers().push(innerGroup);
+                this.bindInput(uuid, liContent, innerGroup);
+                tocLayers.push(...this.createLayers(lyr.Layer, ul, url, map, innerGroup)['toc']);
             }
-            const opLyr = new OperationalLayer(url, lyr.Name, uuid);
-            map.addLayer(opLyr);
-            this.bindInput(uuid, liContent, opLyr);
-                
-            group.getLayers().push(opLyr);
+            // if lyr is a layer (not a group)
+            else {
+                const opLyr = new OperationalLayer(url, lyr.Name, uuid);
+                this.bindInput(uuid, liContent, opLyr);
+                group.getLayers().push(opLyr);
+            }
             parent.appendChild(ul);
         }, tocLayers);
 
-        return tocLayers;
+        return {toc: tocLayers, layerGroup: group};
     }
 
     private createFieldSet(code: string, name: string) {
@@ -88,9 +95,9 @@ export class ToC extends Widget {
         return fieldset;
     }
 
-    private bindInput(layerid: string, layerFieldSet: HTMLFieldSetElement, olLayer: OperationalLayer) {
+    private bindInput(layerid: string, layerFieldSet: HTMLFieldSetElement, olLayer: BaseLayer) {
         const layerCheckbox = layerFieldSet.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
-        layerCheckbox.onchange = function(e) {
+        layerCheckbox.onchange = (e) => {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
             console.log((e.target as HTMLInputElement).checked);
         };
