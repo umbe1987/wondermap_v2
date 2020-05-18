@@ -10,7 +10,7 @@ export class WonderMap {
   private wonderMap: Map;
 
   // https://stackoverflow.com/a/43326461/1979665
-  constructor(id: string, layers: LayerGroup) {
+  constructor(id: string, layers?: LayerGroup) {
     this.wonderMap = new Map({
       target: document.getElementById(id),
       view: new View({
@@ -20,9 +20,11 @@ export class WonderMap {
     });
     
     // add layers
-    layers.getLayers().forEach(lyr => {
-      this.addLayer(lyr);
-    })
+    if(layers) {
+      layers.getLayers().forEach(lyr => {
+        this.addLayer(lyr);
+      })
+    }
     
   }
 
