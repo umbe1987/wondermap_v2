@@ -21,7 +21,7 @@ export class ToC extends Widget {
             urls.map(function (url) {
                 WmsParser.getParams(url).then(result => {
                     const wmsLayers = result.layers;
-                    const layerGroup = this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map)['layerGroup'];
+                    const layerGroup = this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map);
                     map.addLayer(layerGroup);
                 });
             }, this);
@@ -34,7 +34,6 @@ export class ToC extends Widget {
         // create an OpenLayers layer or group layer for each layer or group found in WMS
         // create the toc tree and place it inside panel
 
-        let tocLayers: HTMLFieldSetElement[] = [];
         const ul = document.createElement('UL');
         ul.classList.add("toc-list");
 
@@ -48,7 +47,6 @@ export class ToC extends Widget {
 
             liContent.classList.add(lyr.type); // whether it's a group or a layer
 
-            tocLayers.push(liContent);
             li.appendChild(liContent);
 
             ul.appendChild(li);
@@ -58,7 +56,7 @@ export class ToC extends Widget {
                 const innerGroup = new LayerGroup();
                 group.getLayers().push(innerGroup);
                 this.bindInput(uuid, liContent, innerGroup);
-                tocLayers.push(...this.createLayers(lyr.Layer, ul, url, map, innerGroup)['toc']);
+                this.createLayers(lyr.Layer, ul, url, map, innerGroup);
             }
             // if lyr is a layer (not a group)
             else {
@@ -67,9 +65,9 @@ export class ToC extends Widget {
                 group.getLayers().push(opLyr);
             }
             parent.appendChild(ul);
-        }, tocLayers);
+        });
 
-        return {toc: tocLayers, layerGroup: group};
+        return group;
     }
 
     private createFieldSet(code: string, name: string) {
