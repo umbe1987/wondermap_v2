@@ -56,7 +56,9 @@ export class ToC extends Widget {
                 const innerGroup = new LayerGroup();
                 group.getLayers().push(innerGroup);
                 this.bindInput(uuid, liContent, innerGroup);
-                this.createLayers(lyr.Layer, ul, url, map, innerGroup);
+                const groupLi = document.createElement('LI');
+                ul.appendChild(groupLi);
+                this.createLayers(lyr.Layer, groupLi, url, map, innerGroup);
             }
             // if lyr is a layer (not a group)
             else {
