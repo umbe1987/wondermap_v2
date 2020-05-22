@@ -4,6 +4,7 @@
 
 #toc-panel .toc-list {
     list-style-type:none;
+    padding-top:0;
 }
 
 #toc-panel fieldset {
