@@ -6,6 +6,15 @@ import LayerGroup from 'ol/layer/Group';
 import { genUUID } from '../../random-uuid.service';
 import BaseLayer from 'ol/layer/Base';
 
+interface CreateLayerParameters {
+    layers: WMSLayer[];
+    parent: HTMLElement;
+    url: string;
+    map: WonderMap;
+    group?: LayerGroup;
+    index?: number;
+}
+
 export class ToC extends Widget {
     
     constructor(map: WonderMap, urls: string[]) {
@@ -18,10 +27,15 @@ export class ToC extends Widget {
         
         // creates the widget panel
         this.createPanel(filePath, selector).then(() => {
-            urls.map(function (url) {
+            urls.map(function (url, idx) {
                 WmsParser.getParams(url).then(result => {
                     const wmsLayers = result.layers;
-                    const layerGroup = this.createLayers(wmsLayers, (this.panel as HTMLElement), url, map);
+                    const layerGroup = this.createLayers({
+                        layers: wmsLayers,
+                        parent: (this.panel as HTMLElement),
+                        url: url,
+                        map: map,
+                        index: idx});
                     map.addLayer(layerGroup);
                 });
             }, this);
@@ -30,7 +44,14 @@ export class ToC extends Widget {
         
     }
 
-    private createLayers(layers: WMSLayer[], parent: HTMLElement, url: string, map: WonderMap, group = new LayerGroup()) {
+    private createLayers({
+        layers,
+        parent,
+        url,
+        map,
+        group = new LayerGroup(),
+        index
+    }: CreateLayerParameters) {
         // create an OpenLayers layer or group layer for each layer or group found in WMS
         // create the toc tree and place it inside panel
 
@@ -54,19 +75,23 @@ export class ToC extends Widget {
             // if lyr is a layer group
             if (lyr.Layer) {
                 const innerGroup = new LayerGroup();
-                group.getLayers().push(innerGroup);
+                group.getLayers().insertAt(0, innerGroup);
                 this.bindInput(uuid, liContent, innerGroup);
                 const groupLi = document.createElement('LI');
                 ul.appendChild(groupLi);
-                this.createLayers(lyr.Layer, groupLi, url, map, innerGroup);
+                this.createLayers({layers: lyr.Layer,
+                    parent: groupLi,
+                    url: url,
+                    map: map,
+                    group: innerGroup});
             }
             // if lyr is a layer (not a group)
             else {
                 const opLyr = new OperationalLayer(url, lyr.Name, uuid);
                 this.bindInput(uuid, liContent, opLyr);
-                group.getLayers().push(opLyr);
+                group.getLayers().insertAt(0, opLyr);
             }
-            parent.appendChild(ul);
+            parent.insertBefore(ul, parent.children[index]);
         });
 
         return group;
