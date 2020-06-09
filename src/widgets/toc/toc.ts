@@ -35,10 +35,8 @@ export class ToC extends Widget {
                 layers.forEach(layer => {
                     // add layers to the map (position 1 because basemaps are already there)
                     // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
-                    console.log(layer.layerGroup);
                     this.map.getLayers().insertAt(1, layer.layerGroup);
                     // add layer tree to the panel
-                    console.log(layer.layerTreeDOM);
                     this.panel.appendChild(layer.layerTreeDOM);
                 });
             });
@@ -140,7 +138,6 @@ export class ToC extends Widget {
         const layerCheckbox = layerFieldSet.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
         layerCheckbox.onchange = (e) => {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
-            console.log((e.target as HTMLInputElement).checked);
         };
         layerCheckbox.checked = olLayer.getVisible();
       }
