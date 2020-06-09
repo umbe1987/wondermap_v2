@@ -1,8 +1,5 @@
 import {Map, View} from 'ol';
-import { OperationalLayer } from './layers/OperationalLayer';
-import { BasemapLayer } from './layers/BasemapLayer';
 import Control from 'ol/control/Control';
-import Collection from 'ol/Collection';
 import LayerGroup from 'ol/layer/Group';
 import BaseLayer from 'ol/layer/Base';
 
@@ -32,12 +29,8 @@ export class WonderMap {
     this.wonderMap.addLayer(layer);
   }
 
-  getLayers(): Collection<OperationalLayer | BasemapLayer> {
-    return this.wonderMap.getLayers() as Collection<OperationalLayer | BasemapLayer>;
-  }
-
-  getLayerGroup() {
-    return this.wonderMap.getLayerGroup;
+  getLayers() {
+    return this.wonderMap.getLayers();
   }
 
   addControl(control: Control) {

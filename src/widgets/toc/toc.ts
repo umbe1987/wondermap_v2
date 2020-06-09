@@ -8,17 +8,18 @@ import BaseLayer from 'ol/layer/Base';
 
 interface CreateLayerParameters {
     layers: WMSLayer[];
-    parent: HTMLElement;
+    parent?: HTMLElement;
     url: string;
     map: WonderMap;
     group?: LayerGroup;
-    index?: number;
 }
 
 export class ToC extends Widget {
     
-    constructor(map: WonderMap, urls: string[]) {
+    constructor(private map: WonderMap, private urls: string[]) {
         super();
+        this.map = map;
+        this.urls = urls;
 
         this.element.id = "toc";
         // static folder must exists in the dist folder and html files must be copied to it!
@@ -27,33 +28,46 @@ export class ToC extends Widget {
         
         // creates the widget panel
         this.createPanel(filePath, selector).then(() => {
-            urls.map(function (url, idx) {
-                WmsParser.getParams(url).then(result => {
-                    const wmsLayers = result.layers;
-                    const layerGroup = this.createLayers({
-                        layers: wmsLayers,
-                        parent: (this.panel as HTMLElement),
-                        url: url,
-                        map: map,
-                        index: idx});
-                    map.addLayer(layerGroup);
+            // generate ol and DOM tree Layers for each WMS URL 
+            Promise.all(urls.map(url => {
+                return this.addLayersFromWMS(url);
+            })).then(layers => {
+                layers.forEach(layer => {
+                    // add layers to the map (position 1 because basemaps are already there)
+                    // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
+                    console.log(layer.layerGroup);
+                    this.map.getLayers().insertAt(1, layer.layerGroup);
+                    // add layer tree to the panel
+                    console.log(layer.layerTreeDOM);
+                    this.panel.appendChild(layer.layerTreeDOM);
                 });
-            }, this);
+            });
         });
 
         
     }
 
+    private async addLayersFromWMS(url: string) {
+        const parser = await WmsParser.getParams(url);
+        const wmsLayers = parser.layers;
+        const wonderLayers = this.createLayers({
+            layers: wmsLayers,
+            url: url,
+            map: this.map
+        });
+
+        return wonderLayers;
+    }
+
     private createLayers({
         layers,
-        parent,
         url,
         map,
-        group = new LayerGroup(),
-        index
+        parent,
+        group = new LayerGroup()
     }: CreateLayerParameters) {
         // create an OpenLayers layer or group layer for each layer or group found in WMS
-        // create the toc tree and place it inside panel
+        // create the toc tree DOM
 
         const ul = document.createElement('UL');
         ul.classList.add("toc-list");
@@ -80,9 +94,9 @@ export class ToC extends Widget {
                 const groupLi = document.createElement('LI');
                 ul.appendChild(groupLi);
                 this.createLayers({layers: lyr.Layer,
-                    parent: groupLi,
                     url: url,
                     map: map,
+                    parent: groupLi,
                     group: innerGroup});
             }
             // if lyr is a layer (not a group)
@@ -91,10 +105,12 @@ export class ToC extends Widget {
                 this.bindInput(uuid, liContent, opLyr);
                 group.getLayers().insertAt(0, opLyr);
             }
-            parent.insertBefore(ul, parent.children[index]);
+            if (parent) {
+                parent.appendChild(ul);
+            }
         });
 
-        return group;
+        return {layerGroup: group, layerTreeDOM: ul};
     }
 
     private createFieldSet(code: string, name: string) {
