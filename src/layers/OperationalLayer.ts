@@ -1,7 +1,7 @@
 import ImageLayer from 'ol/layer/Image';
 import ImageWMS from 'ol/source/ImageWMS';
 
-export class OperationalLayer extends ImageLayer {
+export class OperationalLayer{
     private operationalLayer: ImageLayer;
     id: String;
     
@@ -12,12 +12,14 @@ export class OperationalLayer extends ImageLayer {
             url: url,
         });
 
-        super({source});
-
         this.id = id;
 
         this.operationalLayer = new ImageLayer({
             source: source,
         })
+    }
+
+    getLayer() {
+        return this.operationalLayer;
     }
 }
