@@ -30,7 +30,7 @@ export class ToC extends Widget {
         this.createPanel(filePath, selector).then(() => {
             // generate ol and DOM tree Layers for each WMS URL 
             Promise.all(urls.map(url => {
-                return this.addLayersFromWMS(url);
+                return this.getLayersFromWMS(url);
             })).then(layers => {
                 layers.forEach(layer => {
                     // add layers to the map (position 1 because basemaps are already there)
@@ -45,7 +45,7 @@ export class ToC extends Widget {
         
     }
 
-    private async addLayersFromWMS(url: string) {
+    private async getLayersFromWMS(url: string) {
         const parser = await WmsParser.getParams(url);
         const wmsLayers = parser.layers;
         const wonderLayers = this.createLayers({
