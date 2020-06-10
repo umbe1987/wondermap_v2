@@ -100,8 +100,8 @@ export class ToC extends Widget {
             // if lyr is a layer (not a group)
             else {
                 const opLyr = new OperationalLayer(url, lyr.Name, uuid);
-                this.bindInput(uuid, liContent, opLyr);
-                group.getLayers().insertAt(0, opLyr);
+                this.bindInput(uuid, liContent, opLyr.getLayer());
+                group.getLayers().insertAt(0, opLyr.getLayer());
             }
             if (parent) {
                 parent.appendChild(ul);
