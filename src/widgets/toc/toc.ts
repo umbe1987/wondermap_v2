@@ -27,22 +27,19 @@ export class ToC extends Widget {
         let selector = '#toc-panel';
         
         // creates the widget panel
-        this.createPanel(filePath, selector).then(() => {
+        this.createPanel(filePath, selector).then(async () => {
             // generate ol and DOM tree Layers for each WMS URL 
-            Promise.all(urls.map(url => {
+            const layers = await Promise.all(urls.map(url => {
                 return this.getLayersFromWMS(url);
-            })).then(layers => {
-                layers.forEach(layer => {
-                    // add layers to the map (position 1 because basemaps are already there)
-                    // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
-                    this.map.getLayers().insertAt(1, layer.layerGroup);
-                    // add layer tree to the panel
-                    this.panel.appendChild(layer.layerTreeDOM);
-                });
+            }))
+            layers.forEach(layer => {
+                // add layers to the map (position 1 because basemaps are already there)
+                // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
+                this.map.getLayers().insertAt(1, layer.layerGroup);
+                // add layer tree to the panel
+                this.panel.appendChild(layer.layerTreeDOM);
             });
         });
-
-        
     }
 
     private async getLayersFromWMS(url: string) {
