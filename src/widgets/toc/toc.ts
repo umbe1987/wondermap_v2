@@ -106,17 +106,17 @@ export class ToC extends Widget {
         const lyrDiv = document.createElement("DIV");
         lyrDiv.id = code;
 
-        const label = document.createElement("Label");
-        label.setAttribute("for", "visible_" + code);
-        label.classList.add("checkbox");
-
         const input = document.createElement('INPUT');
         input.setAttribute("type", "checkbox");
         input.id = "visible_" + code;
         input.classList.add("visible");
 
-        label.appendChild(input);
+        const label = document.createElement("Label");
+        label.setAttribute("for", "visible_" + code);
+        label.classList.add("checkbox");
+
         lyrDiv.appendChild(label);
+        lyrDiv.appendChild(input);
 
         const labelText = document.createTextNode(name);
     
@@ -126,7 +126,7 @@ export class ToC extends Widget {
     }
 
     private bindInput(layerid: string, layerDiv: HTMLElement, olLayer: BaseLayer) {
-        const layerCheckbox = layerDiv.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
+        const layerCheckbox = layerDiv.children.namedItem(`visible_${layerid}`) as HTMLInputElement;
         layerCheckbox.onchange = (e) => {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
         };
