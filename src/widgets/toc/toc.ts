@@ -77,7 +77,7 @@ export class ToC extends Widget {
             li.appendChild(lyrDiv);
 
             // if lyr is a layer group
-            if (lyr.Layer) {
+            if (lyr.type === 'group') {
                 const innerGroup = new LayerGroup();
                 group.getLayers().insertAt(0, innerGroup);
 
