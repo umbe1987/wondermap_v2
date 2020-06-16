@@ -63,41 +63,35 @@ export class ToC extends Widget {
     }: CreateLayerParameters) {
         // create an OpenLayers layer or group layer for each layer or group found in WMS
         // create the toc tree DOM
-
         const ul = document.createElement('UL');
         ul.classList.add("toc-list");
+        const li = document.createElement('LI');
+        ul.appendChild(li);
 
         layers.forEach(lyr => {
             // generate unique layer identifier
             const uuid = genUUID();
+            const lyrDiv = this.createDiv(uuid, lyr.Title);
 
-            // build checkbox for layer as HTML Element
-            const li = document.createElement('LI');
-            const liContent = this.createFieldSet(uuid, lyr.Title);
-
-            liContent.classList.add(lyr.type); // whether it's a group or a layer
-
-            li.appendChild(liContent);
-
-            ul.appendChild(li);
+            lyrDiv.classList.add(lyr.type); // whether it's a group or a layer
+            li.appendChild(lyrDiv);
 
             // if lyr is a layer group
             if (lyr.Layer) {
                 const innerGroup = new LayerGroup();
                 group.getLayers().insertAt(0, innerGroup);
-                this.bindInput(uuid, liContent, innerGroup);
-                const groupLi = document.createElement('LI');
-                ul.appendChild(groupLi);
+
+                this.bindInput(uuid, lyrDiv, innerGroup);
                 this.createLayers({layers: lyr.Layer,
                     url: url,
                     map: map,
-                    parent: groupLi,
-                    group: innerGroup});
+                    parent: lyrDiv,
+                    group: innerGroup}).layerTreeDOM;
             }
             // if lyr is a layer (not a group)
             else {
                 const opLyr = new OperationalLayer(url, lyr.Name, uuid);
-                this.bindInput(uuid, liContent, opLyr.getLayer());
+                this.bindInput(uuid, lyrDiv, opLyr.getLayer());
                 group.getLayers().insertAt(0, opLyr.getLayer());
             }
             if (parent) {
@@ -108,9 +102,9 @@ export class ToC extends Widget {
         return {layerGroup: group, layerTreeDOM: ul};
     }
 
-    private createFieldSet(code: string, name: string) {
-        const fieldset = document.createElement("fieldset");
-        fieldset.id = code;
+    private createDiv(code: string, name: string) {
+        const lyrDiv = document.createElement("DIV");
+        lyrDiv.id = code;
 
         const label = document.createElement("Label");
         label.setAttribute("for", "visible_" + code);
@@ -122,17 +116,17 @@ export class ToC extends Widget {
         input.classList.add("visible");
 
         label.appendChild(input);
-        fieldset.appendChild(label);
+        lyrDiv.appendChild(label);
 
         const labelText = document.createTextNode(name);
     
         label.appendChild(labelText);
     
-        return fieldset;
+        return lyrDiv;
     }
 
-    private bindInput(layerid: string, layerFieldSet: HTMLFieldSetElement, olLayer: BaseLayer) {
-        const layerCheckbox = layerFieldSet.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
+    private bindInput(layerid: string, layerDiv: HTMLElement, olLayer: BaseLayer) {
+        const layerCheckbox = layerDiv.children.item(0).children.namedItem(`visible_${layerid}`) as HTMLInputElement;
         layerCheckbox.onchange = (e) => {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
         };

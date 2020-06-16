@@ -7,10 +7,6 @@
     padding-top:0;
 }
 
-#toc-panel fieldset {
-    border: 0;
-}
-
 /* remove padding only from first level of nested list */
 #toc-panel > ul {
     padding-left: 0;
