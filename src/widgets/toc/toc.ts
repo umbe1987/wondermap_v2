@@ -99,6 +99,11 @@ export class ToC extends Widget {
             }
         });
 
+        if (parent) {
+            parent.addEventListener("click", evt => this.toggleContent(evt));
+            ul.classList.add('group-content');
+        }
+
         return {layerGroup: group, layerTreeDOM: ul};
     }
 
@@ -132,4 +137,41 @@ export class ToC extends Widget {
         };
         layerCheckbox.checked = olLayer.getVisible();
       }
+
+    private toggleContent(e: Event) {
+        // prevent event firing when children are clicked
+        if(e.target !== e.currentTarget) {
+            return;
+        }
+        const groupCollapsible = e.target as HTMLElement;
+        groupCollapsible.classList.toggle("active");
+        this.expandContent(groupCollapsible);
+    }
+
+    private expandContent(collapsible: HTMLElement) {
+        var isActive = collapsible.classList.contains('active');
+        const ulContent = collapsible.children.item(collapsible.children.length - 1) as HTMLElement;
+        if (!isActive){
+            ulContent.style.maxHeight = null;
+        } else {
+            ulContent.style.maxHeight = ulContent.scrollHeight + "px";
+            this.adjustParentMaxHeight(ulContent);
+        }
+    }
+
+    private adjustParentMaxHeight(childContentDiv: HTMLElement) {
+        const parentDiv = childContentDiv.parentElement;
+        const parentUlContent = parentDiv.closest('.toc-list');
+        // if this ul is the root layer tree
+        if (!parentUlContent) {
+            return;
+        }
+        if (parentUlContent === childContentDiv) {
+            return;
+        }
+        const parentCollapsible = parentUlContent.parentElement;
+        if (parentCollapsible.classList.contains('active')) {
+            this.expandContent(parentCollapsible);
+        }
+    }
 }

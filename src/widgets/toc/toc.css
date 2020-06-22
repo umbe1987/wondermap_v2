@@ -7,7 +7,22 @@
     padding-top:0;
 }
 
+/* hide the content when group collapsible is not active */
+#toc-panel .toc-list.group-content {
+    max-height: 0;
+    overflow: hidden;
+    /*transition: max-height 0.2s ease-out;*/
+}
+
 /* remove padding only from first level of nested list */
 #toc-panel > ul {
     padding-left: 0;
+}
+
+#toc-panel .toc-list .group::before {
+    content: '\002B';
+}
+
+#toc-panel .toc-list .active::before {
+    content: '\2212';
 }
