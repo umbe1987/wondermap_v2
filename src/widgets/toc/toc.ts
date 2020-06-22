@@ -38,6 +38,8 @@ export class ToC extends Widget {
                 this.map.getLayers().insertAt(1, layer.layerGroup);
                 // add layer tree to the panel
                 this.panel.appendChild(layer.layerTreeDOM);
+                const hr = document.createElement('HR');
+                this.panel.appendChild(hr);
             });
         });
     }
