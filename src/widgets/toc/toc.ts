@@ -112,32 +112,30 @@ export class ToC extends Widget {
     private createDiv(code: string, name: string) {
         const lyrDiv = document.createElement("DIV");
         lyrDiv.id = code;
+        var lyrText = document.createTextNode(name);
+        lyrDiv.appendChild(lyrText);
 
-        const input = document.createElement('INPUT');
-        input.setAttribute("type", "checkbox");
-        input.id = "visible_" + code;
-        input.classList.add("visible");
+        const visibilityInput = document.createElement('INPUT');
+        visibilityInput.setAttribute("type", "checkbox");
+        visibilityInput.id = "visible_" + code;
+        visibilityInput.classList.add("visibility-checkbox");
 
         const label = document.createElement("Label");
         label.setAttribute("for", "visible_" + code);
         label.classList.add("checkbox");
 
+        lyrDiv.appendChild(visibilityInput);
         lyrDiv.appendChild(label);
-        lyrDiv.appendChild(input);
-
-        const labelText = document.createTextNode(name);
-    
-        label.appendChild(labelText);
     
         return lyrDiv;
     }
 
     private bindInput(layerid: string, layerDiv: HTMLElement, olLayer: BaseLayer) {
-        const layerCheckbox = layerDiv.children.namedItem(`visible_${layerid}`) as HTMLInputElement;
-        layerCheckbox.onchange = (e) => {
+        const visibilityCheckbox = layerDiv.children.namedItem(`visible_${layerid}`) as HTMLInputElement;
+        visibilityCheckbox.onchange = (e) => {
             olLayer.setVisible((e.target as HTMLInputElement).checked);
         };
-        layerCheckbox.checked = olLayer.getVisible();
+        visibilityCheckbox.checked = olLayer.getVisible();
       }
 
     private toggleContent(e: Event) {

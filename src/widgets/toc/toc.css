@@ -14,15 +14,33 @@
     /*transition: max-height 0.2s ease-out;*/
 }
 
-/* remove padding only from first level of nested list */
-#toc-panel > ul {
-    padding-left: 0;
+#toc-panel .toc-list li .group {
+    font-size: 5vmin;
+    padding: 5px;
 }
 
-#toc-panel .toc-list .group::before {
+#toc-panel .toc-list li .group::before {
     content: '\002B';
 }
 
-#toc-panel .toc-list .active::before {
+#toc-panel .toc-list li .active::before {
     content: '\2212';
+}
+
+/* remove checkbox default style and use the label to display an icon instead */
+/* https://stackoverflow.com/a/3772914/1979665 */
+#toc-panel .toc-list li .group input[type="checkbox"] {
+    display: none;
+}
+
+#toc-panel .toc-list li .group input[type="checkbox"] + label {
+    display:inline-block;
+    background-image: url('./eye_not_visible.svg');
+    height: 5vmin;
+    width: 5vmin;
+    vertical-align: middle;
+}
+
+#toc-panel .toc-list li .group input[type="checkbox"]:checked + label {
+    background-image: url('./eye_visible.svg');
 }
