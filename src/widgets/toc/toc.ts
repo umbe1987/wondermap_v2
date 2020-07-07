@@ -144,14 +144,14 @@ export class ToC extends Widget {
             return;
         }
         const groupCollapsible = e.target as HTMLElement;
-        groupCollapsible.classList.toggle("active");
+        groupCollapsible.classList.toggle("expanded");
         this.expandContent(groupCollapsible);
     }
 
     private expandContent(collapsible: HTMLElement) {
-        var isActive = collapsible.classList.contains('active');
+        var isExpanded = collapsible.classList.contains('expanded');
         const ulContent = collapsible.children.item(collapsible.children.length - 1) as HTMLElement;
-        if (!isActive){
+        if (!isExpanded){
             ulContent.style.maxHeight = null;
         } else {
             ulContent.style.maxHeight = ulContent.scrollHeight + "px";
@@ -170,7 +170,7 @@ export class ToC extends Widget {
             return;
         }
         const parentCollapsible = parentUlContent.parentElement;
-        if (parentCollapsible.classList.contains('active')) {
+        if (parentCollapsible.classList.contains('expanded')) {
             this.expandContent(parentCollapsible);
         }
     }

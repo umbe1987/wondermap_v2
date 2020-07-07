@@ -23,7 +23,7 @@
     content: '\002B';
 }
 
-#toc-panel .toc-list li .active::before {
+#toc-panel .toc-list li .expanded::before {
     content: '\2212';
 }
 
