@@ -36,6 +36,8 @@
 #toc-panel .toc-list li .group input[type="checkbox"] + label {
     display:inline-block;
     background-image: url('./eye_not_visible.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
     height: 5vmin;
     width: 5vmin;
     vertical-align: middle;
