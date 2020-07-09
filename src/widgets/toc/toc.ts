@@ -6,6 +6,8 @@ import LayerGroup from 'ol/layer/Group';
 import { genUUID } from '../../random-uuid.service';
 import BaseLayer from 'ol/layer/Base';
 
+import image from './toc.svg';
+
 interface CreateLayerParameters {
     layers: WMSLayer[];
     parent?: HTMLElement;
@@ -17,7 +19,7 @@ interface CreateLayerParameters {
 export class ToC extends Widget {
     
     constructor(private map: WonderMap, private urls: string[]) {
-        super();
+        super("Layers", image);
         this.map = map;
         this.urls = urls;
 
