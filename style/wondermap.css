@@ -12,24 +12,12 @@ body {
 #widget-bar {
     position: fixed;
     bottom: 0;
-    height: 10vmin;
+    display: flex;
+    --parentHeight: 15vmin;
+    height: var(--parentHeight);
     width: 100%;
     background-color: white;
     box-shadow: 0 -.5em 18px #888888;
-}
-
-#widget-bar > ul, #widget-bar > ul > li {
-    margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#widget-bar > ul {
-    list-style: none;
-}
-
-#widget-bar > ul > li {
-    float: left;
 }
 
 /* WIDGETS STYLE */

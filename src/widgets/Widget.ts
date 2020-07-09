@@ -4,12 +4,19 @@ const CSS_PREFIX = 'wondermap-widget';
 
 export abstract class Widget {
     panel: Node;
-    element: HTMLLIElement;
+    element: HTMLDivElement;
     
-    constructor() {
+    constructor(label: string, img: string) {
 
-        this.element = document.createElement('li');
+        this.element = document.createElement('div');
         this.element.className = CSS_PREFIX;
+        const labelDiv = document.createElement('div');
+        const labelText = document.createTextNode(label);
+        labelDiv.appendChild(labelText);
+        const labelImg = document.createElement('img');
+        labelImg.src = img;
+        this.element.appendChild(labelDiv);
+        this.element.appendChild(labelImg);
     }
 
     protected async createPanel(file: string, selector: string) {
