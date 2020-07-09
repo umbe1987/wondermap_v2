@@ -2,6 +2,7 @@ import {Map, View} from 'ol';
 import Control from 'ol/control/Control';
 import LayerGroup from 'ol/layer/Group';
 import BaseLayer from 'ol/layer/Base';
+import {defaults} from 'ol/control';
 
 export class WonderMap {
   private wonderMap: Map;
@@ -13,7 +14,11 @@ export class WonderMap {
       view: new View({
         center: [0, 0],
         zoom: 0
-      })
+      }),
+      controls : defaults({
+        attribution : false,
+        zoom : false,
+      }),
     });
     
     // add layers
