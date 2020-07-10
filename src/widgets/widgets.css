@@ -4,7 +4,7 @@
     flex-direction: column-reverse;
     cursor: pointer;
     background-color: transparent;
-    width: var(--parentHeight); /* defined in parent div */
+    width: var(--parentHeight);
     height: 100%;
     padding: 5px;
     background-clip: content-box;
@@ -25,12 +25,12 @@
     height: 0;
     width: 100%;
     position: fixed;
-    bottom: 15vmin;
+    bottom: var(--parentHeight);
     overflow-x: hidden;
     transition: 0.5s;
     background-color: white;
 }
 
 .wondermap-panel.active {
-    height: calc(100% - 15vmin);
+    height: calc(100% - var(--parentHeight));
 }
