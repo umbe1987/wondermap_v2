@@ -5,5 +5,5 @@ export async function getTemplate(filepath: string, selectors: string) {
 
     let html =  new DOMParser().parseFromString(txt, 'text/html');
 
-    return html.querySelector(selectors);
+    return html.querySelector(selectors) as HTMLElement;
 }
