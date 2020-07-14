@@ -39,9 +39,9 @@ export class ToC extends Widget {
                 // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
                 this.map.getLayers().insertAt(1, layer.layerGroup);
                 // add layer tree to the panel
-                this.panel.appendChild(layer.layerTreeDOM);
+                this.getPanelContent().appendChild(layer.layerTreeDOM);
                 const hr = document.createElement('HR');
-                this.panel.appendChild(hr);
+                this.getPanelContent().appendChild(hr);
             });
         });
     }
@@ -69,10 +69,10 @@ export class ToC extends Widget {
         // create the toc tree DOM
         const ul = document.createElement('UL');
         ul.classList.add("toc-list");
-        const li = document.createElement('LI');
-        ul.appendChild(li);
 
         layers.forEach(lyr => {
+            const li = document.createElement('LI');
+            ul.appendChild(li);
             // generate unique layer identifier
             const uuid = genUUID();
             const lyrDiv = this.createDiv(uuid, lyr.Title);
