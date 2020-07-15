@@ -5,6 +5,8 @@ const CSS_PREFIX = 'wondermap-widget';
 export abstract class Widget {
     panel: HTMLElement;
     element: HTMLElement;
+    isActive: boolean = false;
+    id: string;
     
     constructor(label: string, img: string) {
 
@@ -17,6 +19,7 @@ export abstract class Widget {
         labelImg.src = img;
         this.element.appendChild(labelDiv);
         this.element.appendChild(labelImg);
+        this.id = label;
     }
 
     protected async createPanel(file: string, selector: string) {
@@ -36,8 +39,10 @@ export abstract class Widget {
     private togglePanel(): void {
         if (this.panel.classList.contains("active")) {
             this.closePanel();
+            this.isActive = false;
         } else {
             this.openPanel();
+            this.isActive = true;
         }
     }
 
