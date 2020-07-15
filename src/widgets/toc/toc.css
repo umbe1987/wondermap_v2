@@ -1,18 +1,37 @@
+#toc-panel {
+    display: flex;
+    flex-direction: column;
+}
+
 #toc-panel .toc-list {
-    list-style-type:none;
-    padding-top:0;
+    list-style-type:none;;
+}
+
+#toc-panel hr {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#toc-panel ul {
+    padding-inline-start: 15px;
+}
+
+#toc-panel > ul {
+    padding-inline-start: 5px;
 }
 
 /* hide the content when group collapsible is not active */
 #toc-panel .toc-list.group-content {
     max-height: 0;
     overflow: hidden;
-    /*transition: max-height 0.2s ease-out;*/
+}
+
+#toc-panel .toc-list > li {
+    margin-top: 10px;
 }
 
 #toc-panel .toc-list li .group {
     font-size: 5vmin;
-    padding: 5px;
 }
 
 #toc-panel .toc-list li .group::before {
@@ -30,13 +49,13 @@
 }
 
 #toc-panel .toc-list li .group input[type="checkbox"] + label {
-    display:inline-block;
+    float: right;
+    padding-right: 20px;
     background-image: url('./eye_not_visible.svg');
     background-size: contain;
     background-repeat: no-repeat;
     height: 5vmin;
     width: 5vmin;
-    vertical-align: middle;
 }
 
 #toc-panel .toc-list li .group input[type="checkbox"]:checked + label {
