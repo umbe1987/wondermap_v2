@@ -25,8 +25,8 @@ export class ToC extends Widget {
 
         this.element.id = "toc";
         // static folder must exists in the dist folder and html files must be copied to it!
-        let filePath = './static/toc.template.html';
-        let selector = '#toc-panel';
+        const filePath = './static/toc.template.html';
+        const selector = '#toc-panel';
         
         // creates the widget panel
         this.createPanel(filePath, selector).then(async () => {
