@@ -22,7 +22,7 @@ export class WidgetBar {
     private addWidget(widget: Widget): void {
         this.widgets.push(widget);
         const newWidget = new Control({
-            element: widget.element,
+            element: widget.widgetBox,
             target: this.element,
         })
         this.map.addControl(newWidget);

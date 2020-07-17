@@ -23,7 +23,7 @@ export class ToC extends Widget {
         this.map = map;
         this.urls = urls;
 
-        this.element.id = "toc";
+        this.widgetBox.id = "toc";
         // static folder must exists in the dist folder and html files must be copied to it!
         const filePath = './static/toc.template.html';
         const selector = '#toc-panel';
