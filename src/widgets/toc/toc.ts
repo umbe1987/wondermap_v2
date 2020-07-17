@@ -24,26 +24,21 @@ export class ToC extends Widget {
         this.urls = urls;
 
         this.widgetBox.id = "toc";
-        // static folder must exists in the dist folder and html files must be copied to it!
-        const filePath = './static/toc.template.html';
-        const selector = '#toc-panel';
-        
-        // creates the widget panel
-        this.createPanel(filePath, selector).then(async () => {
-            // generate ol and DOM tree Layers for each WMS URL 
-            const layers = await Promise.all(urls.map(url => {
-                return this.getLayersFromWMS(url);
-            }))
-            layers.forEach(layer => {
-                // add layers to the map (position 1 because basemaps are already there)
-                // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
-                this.map.getLayers().insertAt(1, layer.layerGroup);
-                // add layer tree to the panel
-                this.getPanelContent().appendChild(layer.layerTreeDOM);
-                const hr = document.createElement('HR');
-                this.getPanelContent().appendChild(hr);
-            });
-        });
+        const panelContent = document.createElement('DIV');
+        panelContent.id = 'toc-panel';
+        this.getPanel().appendChild(panelContent);
+
+        Promise.all(urls.map(url => {
+            return this.getLayersFromWMS(url);
+        })).then(layers => layers.forEach(layer => {
+            // add layers to the map (position 1 because basemaps are already there)
+            // IMPORTANT: when new layers are added, they cover the others,that's why we use insertAt instead of addLayer!
+            this.map.getLayers().insertAt(1, layer.layerGroup);
+            // add layer tree to the panel
+            panelContent.appendChild(layer.layerTreeDOM);
+            const hr = document.createElement('HR');
+            panelContent.appendChild(hr);
+        }))
     }
 
     private async getLayersFromWMS(url: string) {

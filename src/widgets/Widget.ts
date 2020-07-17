@@ -3,10 +3,10 @@ import { getTemplate } from '../get-template.service';
 const CSS_PREFIX = 'wondermap-widget';
 
 export abstract class Widget {
-    widgetPanel: HTMLElement;
-    widgetBox: HTMLElement;
-    isActive: boolean = false;
-    id: string;
+    private widgetPanel: HTMLElement;
+    protected widgetBox: HTMLElement;
+    protected isActive: boolean = false;
+    protected id: string;
     
     constructor(label: string, img: string) {
 
@@ -20,13 +20,12 @@ export abstract class Widget {
         this.widgetBox.appendChild(labelDiv);
         this.widgetBox.appendChild(labelImg);
         this.id = label;
+        this.widgetPanel = this.createPanel();
     }
 
-    protected async createPanel(file: string, selector: string) {
-        const panelContent = await getTemplate(file, selector);
+    private createPanel() {
         this.widgetPanel = document.createElement('DIV');
         this.widgetPanel.classList.add("wondermap-panel");
-        this.widgetPanel.appendChild(panelContent);
         document.body.appendChild(this.widgetPanel);
         // bind this object to give context to openPanel
         // function assigned to onclick event function
@@ -54,7 +53,7 @@ export abstract class Widget {
         this.widgetPanel.classList.remove("active");
     };
 
-    protected getPanelContent(): HTMLElement {
-        return this.widgetPanel.firstElementChild as HTMLElement;
+    protected getPanel(): HTMLElement {
+        return this.widgetPanel;
     }
 }
