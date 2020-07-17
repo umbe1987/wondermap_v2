@@ -39,6 +39,8 @@ export class WidgetBar {
         })
     }
 
+    // this context is changed to be widget, see
+    // https://stackoverflow.com/a/49456625/1979665
     private toggleWidgetPanel(this: Widget) {
         if (this.getPanel().classList.contains("active")) {
             closePanel(this);
