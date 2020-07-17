@@ -26,10 +26,33 @@ export class WidgetBar {
             target: this.element,
         })
         this.map.addControl(newWidget);
+        this.widgetHandler();
     }
 
     private getWidgets() {
         return this.widgets;
+    }
+
+    private widgetHandler() {
+        this.getWidgets().forEach(widget => {
+            widget.widgetBox.onclick = this.toggleWidgetPanel.bind(widget);
+        })
+    }
+
+    private toggleWidgetPanel(this: Widget) {
+        if (this.getPanel().classList.contains("active")) {
+            closePanel(this);
+        } else {
+            openPanel(this);
+        }
+
+        function openPanel(widget: Widget) {
+            widget.getPanel().classList.add("active");
+        }
+
+        function closePanel(widget: Widget) {
+            widget.getPanel().classList.remove("active");
+        }
     }
 
     getActiveWidgets() {
