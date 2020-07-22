@@ -1,12 +1,14 @@
 const CSS_PREFIX = 'wondermap-widget';
 
+import image from './missing_icon.svg';
+
 export class Widget {
     private widgetPanel: HTMLElement;
     widgetBox: HTMLElement;
     isActive: boolean = false;
     id: string;
     
-    constructor(label: string, img: string) {
+    constructor(label: string, img: string = image) {
         this.widgetBox = document.createElement('div');
         this.widgetBox.className = CSS_PREFIX;
         const labelDiv = document.createElement('div');
