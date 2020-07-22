@@ -1,3 +1,5 @@
+import { fromEvent } from 'rxjs';
+
 import { WonderMap } from '../Map';
 import { Widget } from './Widget';
 import Control from 'ol/control/Control';
@@ -15,7 +17,7 @@ export class WidgetBar {
 
         if (widgets) {
             widgets.forEach(widget =>
-                this.addWidget(widget))
+                this.addWidget(widget));
         }
     }
 
@@ -26,26 +28,26 @@ export class WidgetBar {
             target: this.element,
         })
         this.map.addControl(newWidget);
-        this.widgetHandler();
+        this.widgetHandler(widget);
     }
 
     private getWidgets() {
         return this.widgets;
     }
 
-    private widgetHandler() {
-        this.getWidgets().forEach(widget => {
-            widget.widgetBox.onclick = this.toggleWidgetPanel.bind(widget);
-        })
+    private widgetHandler(widget: Widget) {
+        fromEvent(widget.widgetBox, 'click').subscribe(
+            () => this.toggleWidgetPanel(widget)
+        )
     }
 
     // this context is changed to be widget, see
     // https://stackoverflow.com/a/49456625/1979665
-    private toggleWidgetPanel(this: Widget) {
-        if (this.getPanel().classList.contains("active")) {
-            closePanel(this);
+    private toggleWidgetPanel(widget: Widget) {
+        if (widget.getPanel().classList.contains("active")) {
+            closePanel(widget);
         } else {
-            openPanel(this);
+            openPanel(widget);
         }
 
         function openPanel(widget: Widget) {
