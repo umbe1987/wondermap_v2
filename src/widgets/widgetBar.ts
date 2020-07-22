@@ -1,18 +1,25 @@
-import { fromEvent } from 'rxjs';
+import { Subject, fromEvent } from 'rxjs';
 
 import { WonderMap } from '../Map';
 import { Widget } from './Widget';
 import Control from 'ol/control/Control';
 
+interface widgetStatus {
+    id: string;
+    isActive: boolean;
+}
+
 export class WidgetBar {
     private map: WonderMap;
     private element: HTMLElement;
     private widgets: Widget[];
+    private widgetActivated$: Subject<widgetStatus>;
 
     constructor(map: WonderMap, widgets?: Widget[]) {
 
         this.element = document.getElementById('widget-bar');
         this.map = map;
+        this.widgetActivated$ = new Subject();
         this.widgets = [];
 
         if (widgets) {
@@ -38,30 +45,35 @@ export class WidgetBar {
     private widgetHandler(widget: Widget) {
         fromEvent(widget.widgetBox, 'click').subscribe(
             () => this.toggleWidgetPanel(widget)
-        )
-    }
-
-    // this context is changed to be widget, see
-    // https://stackoverflow.com/a/49456625/1979665
-    private toggleWidgetPanel(widget: Widget) {
-        if (widget.getPanel().classList.contains("active")) {
-            closePanel(widget);
-        } else {
-            openPanel(widget);
-        }
-
-        function openPanel(widget: Widget) {
-            widget.getPanel().classList.add("active");
-        }
-
-        function closePanel(widget: Widget) {
-            widget.getPanel().classList.remove("active");
-        }
-    }
-
-    getActiveWidgets() {
-        this.getWidgets().map(widget => {
-            console.log(`${widget.id}: ${widget.isActive}`);
+        );
+        this.widgetActivated$.subscribe(status => {
+            const widgetsToClose = this.getWidgets().filter(widget => 
+                widget.isActive === true && widget.id !== status.id);
+            if (widgetsToClose) {
+                widgetsToClose.forEach(widgetToClose => this.closePanel(widgetToClose));
+            }
         })
+    }
+
+    private toggleWidgetPanel(widget: Widget) {
+        if (!widget.getPanel().classList.contains("active")) {
+            this.openPanel(widget);
+        } else {
+            this.closePanel(widget);
+        }
+    }
+
+    private openPanel(widget: Widget) {
+        widget.getPanel().classList.add("active");
+        widget.isActive = true;
+        this.widgetActivated$.next(this.getWidgetStatus(widget));
+    }
+
+    private closePanel(widget: Widget) {
+        widget.getPanel().classList.remove("active");
+    }
+
+    private getWidgetStatus(widget: Widget): widgetStatus {
+        return {id: widget.id, isActive: widget.isActive};
     }
 }
