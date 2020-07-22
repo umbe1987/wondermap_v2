@@ -1,5 +1,3 @@
-import { getTemplate } from '../get-template.service';
-
 const CSS_PREFIX = 'wondermap-widget';
 
 export class Widget {
