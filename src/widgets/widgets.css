@@ -9,15 +9,19 @@
     padding: 5px;
     background-clip: content-box;
     box-sizing: border-box;
+    justify-content: center;
 }
 
 .wondermap-widget div {
     flex-grow: 1;
-    text-align: center;
+    display: flex; /* https://stackoverflow.com/a/27733401/1979665 */
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5vw;
   }
   
   .wondermap-widget img {
-    flex-grow: 3;
+    flex-grow: 2;
   }
 
 .wondermap-panel {
